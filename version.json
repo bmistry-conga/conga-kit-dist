@@ -1,0 +1,89 @@
+{
+  "name": "CongaKit",
+  "version": "0.5.2",
+  "released": "2026-06-23",
+  "changelog": [
+    {
+      "version": "0.5.2",
+      "date": "2026-06-23",
+      "changes": [
+        "Channel-aware updates: conga-kit-setup (2.6.0) now gives the right upgrade steps per install channel — marketplace (plugin manager / /plugin update), uploaded .plugin (download new file + re-upload), or zip (re-download + incremental diff). docs/INSTALL.md now documents three install options (zip, upload .plugin, marketplace) and per-channel updating; the Catalog 'Update available' banner is the cross-channel awareness signal."
+      ]
+    },
+    {
+      "version": "0.5.1",
+      "date": "2026-06-23",
+      "changes": [
+        "Docs + setup: documented the removal/reset lifecycle — new 'Removing / resetting CongaKit' section in the README and a guided 'remove CongaKit' / 'uninstall CongaKit' / 'start fresh' flow in conga-kit-setup (2.5.0). Clarifies plugin = one-action bulk uninstall vs zip = per-skill removal; the flow deletes the workspace receipt/kit files it can and guides the UI-only removals."
+      ]
+    },
+    {
+      "version": "0.5.0",
+      "date": "2026-06-22",
+      "changes": [
+        "New artifact types: first-class slash commands (commands/) and subagents (agents/), packaged into the Claude plugin alongside skills — additive entry points over the same SKILL.md sources, never the only way to reach a feature (chat-only users still use skill trigger phrases)",
+        "Commands: /conga-setup, /conga-update, /conga-catalog, /conga-feedback surface the setup skill's sub-flows; /conga-briefing, /conga-status, /conga-kickoff, /conga-review, /conga-qbr, /conga-upgrade are thin entry points to role skills",
+        "Agents: conga-code-reviewer (rule-ID code review), conga-org-health (Discovery scorecard), conga-sow-analyst (SOW scope/risk) — each injects its source skill's body at build time so the dispatched agent is self-contained",
+        "Manifest + validator extended to cover commands/agents (file, skill reference, roles, semver, no orphans, injection marker); congakit.lock.json now hashes commands/ and agents/ for provenance",
+        "Plugin build packages commands/ and agents/ so CongaKit works as a plugin in Cowork and Claude Code, not just as the .skill zip",
+        "Catalog (v2.1.0): now lists commands and agents with their delegating/source skill and roles, plus Commands/Agents count chips; live-data wiring — set CONGAKIT_MANIFEST_URL at build to fetch the published manifest at runtime, otherwise the baked snapshot is used",
+        "M365 Copilot connector parity: each agent now ships Jira + Salesforce API-plugin actions (Outlook is native Graph grounding) plus a CONNECTORS.md parity matrix and per-tenant verification checklist",
+        "Build targets derive their role set from a per-role surfaces field in the manifest (no hardcoded role lists in the M365/GitHub Copilot builds)",
+        "Security: validate now scans every dashboard and fails on off-allowlist remote resource loads, external network egress (fetch/WebSocket/beacon), and dynamic-code constructs (eval/new Function/document.write) — community dashboard HTML is no longer gated by manual review alone",
+        "New: trigger-phrase eval harness (npm run eval + eval/fixtures.json) — deterministic regression guard that each skill still fires on the phrases users type and doesn't over-trigger; runs in CI alongside validate",
+        "M365 build now FAILS on instruction overflow instead of silently truncating a role's agent; build generators covered by unit tests (npm test) that run in CI",
+        "Agents now run in explicit autonomous mode: the injected skill body's interactive Cowork steps (ask the user, present files, create artifacts) are overridden so dispatched agents gather what they have and return a finished report",
+        "New GitHub Copilot build target (build:copilot-prompts): .github/copilot-instructions.md + .github/prompts/*.prompt.md for the dev/TA roles — a no-sideload alternative to the chat-participant extension, derived from the same skills/commands",
+        "New: curated Cowork plugin hook (hooks/) — a non-intrusive SessionStart awareness hook that helps Claude steer non-technical users to the right skill/command and the update path; core-only (not community-contributable), and intentionally not security-guardrail or developer-workflow tooling",
+        "New: behavioral (output-quality) eval framework — eval/behavior/*.json specs with rubrics + red-flags for skills and agents; npm run eval:behavior validates specs in CI, npm run eval:behavior:pack emits a gradeable pack to run in Cowork/Claude",
+        "Plugin marketplace: build:plugin now emits an unpacked plugin + marketplace.json under dist/plugin/, and CI publishes it to the `marketplace` branch on release — one-command install/update via /plugin marketplace add or Cowork's Plugins browser (zip + .skill remains the primary channel)",
+        "Plugin feature-parity: the plugin now bundles the manifest, catalog-injected dashboards, and contributor templates with the setup skill (kit/), so a plugin-only Cowork user gets dashboards + the scheduled briefing too. conga-kit-setup 2.3.0 detects plugin vs zip install (skips skill-upload when plugin-installed) — one channel delivers everything",
+        "Framework/extensibility: 'share my skill' is now channel-independent — it packages contributions into the user's workspace and submits to the repo (PR/email) regardless of plugin vs zip install, never writing into the read-only plugin. README documents consume-vs-contribute and the publish-your-own-marketplace path",
+        "Marketplace federation: marketplace/plugins.json lets teams register their own CongaKit-format plugins (pointers to their repos); build:plugin emits a marketplace listing the core plugin plus all registered externals, and validate checks each entry — contributions can graduate from merged-into-core to standalone installable plugins with no content bottleneck",
+        "Architecture-audit fixes: conga-sow-analyst restricted to read-only tools and conga-org-health hardened with an explicit no-write/no-save guard; conga-docs gained an anti-fabrication rule + the kit-wide Sources convention; conga-presenter template-resolution wording corrected; conga-director given interim methods for provisional workflows, an ask-vs-act rule, and sharper Manager disambiguation",
+        "Setup role picker (conga-kit-setup 2.4.0): new per-role `group` field drives a two-step chooser (area, then role) so all GA + Preview roles are reachable within the 4-option question cap — fixes only the 4 GA roles showing. validate enforces <=3 visible groups and <=4 roles per group",
+        "Catalog (v2.2.0): when CONGAKIT_MANIFEST_URL is set, the catalog compares the installed kit version against the live published version and shows an 'Update available — say update CongaKit' banner. No-op when the URL is unset (no fetch, no banner); read-only check, no data sent — benefits zip users who otherwise can't tell an update exists"
+      ]
+    },
+    {
+      "version": "0.4.0",
+      "date": "2026-06-10",
+      "changes": [
+        "Setup skill rewritten: manifest-driven, covers all 9 roles, installs community contributions",
+        "New: 'update CongaKit' flow — installs only what changed between kit versions",
+        "New: CongaKit Catalog dashboard — browse all skills and community contributions",
+        "New: feedback flow — file skill feedback and requests from Cowork",
+        "New: skill template for contributors + review checklist",
+        "New: plugin build target (zip remains the primary channel)",
+        "Fixed: 14 missing reference files in preview skills now ship as starter templates",
+        "Fixed: conga-presenter brand template path now resolves inside the extracted kit",
+        "Validation: SKILL.md reference-file pointers checked in CI",
+        "Preview skills rewritten to workflow format with decision rules ([CONGA: confirm] markers flag items awaiting leadership sign-off)",
+        "GA skills: added skill-boundary disambiguation and common-pitfalls guidance",
+        "Official Conga code review rules (APX/SOQ/TRG/ASY/TST/SEC/WS/BAT/PCB/COM + C#/Angular/CSS) integrated into developer and technical-architect skills; reviews now cite rule IDs; rules ship inside the GitHub Copilot extension",
+        "Technical Support and AMS roles hidden (status: hidden) pending content sign-off — excluded from setup, catalog, 'install everything', plugin, and M365 agent builds; sources remain in the repo",
+        "New skills for enabled roles: conga-kickoff (SOW→kickoff pack, EM/SA), conga-status-pack (weekly report+deck+email in one pass, EM/Manager), conga-upgrade-advisor (Discovery-driven upgrade engagements, TA)",
+        "Customer Success role hidden pending CS leadership sign-off on the health/renewal-risk model",
+        "Customer Success rebuilt Discovery-first (adoption evidence, health scorecard via save_health_scorecard, shelfware analysis, compare_analyses trends) and restored to Preview; renewal-risk weighting remains provisional",
+        "Conga Discovery enrichment: SA solution designs and pre-call briefs, kickoff current-state, and Manager/Director portfolio views now ground in analysis data when available; kit-wide 'Sources:' convention — every data-backed output names the connectors used AND the unavailable ones that would improve it",
+        "Setup skill 2.1.0: mandatory data-hygiene scrub before community sharing, chat-only environment path (Phase 0), opt-in adoption ping (congakit-adoption label in PAC)",
+        "CI: community content scanned for credentials, Salesforce IDs, and external email addresses",
+        "Playbook: workflow power-up skills (kickoff, status-pack, upgrade-advisor) documented",
+        "Deprecation path: manifest deprecated_skills map + update-flow detection — retired skills are flagged to users with removal instructions and named replacements",
+        "Dashboard update path: dashboards now versioned in the manifest; update flow detects changed dashboards, protects user customizations (logged in the receipt and replayed after update)",
+        "Security & provenance (APM-inspired): CI scans all kit content for hidden-Unicode agent-hijack characters; congakit.lock.json pins sha256 hashes of every skill/dashboard/community file — drift fails CI, hash changes are reviewable in PRs, and the lock ships in the kit",
+        "Fixed: conga-presenter brand template is now bundled inside the skill (assets/) so it installs with the skill and resolves without the original kit folder — fixes 'template not found' when the skill runs in Claude Code / a different working directory",
+        "conga-presenter: removed the duplicate standalone brand template from docs/ and the zip — it now ships only inside the skill (single source of truth)"
+      ]
+    },
+    {
+      "version": "0.3.0",
+      "date": "2026-05-19",
+      "changes": [
+        "Community contribution framework: community/ drop-zones with metadata sidecars",
+        "skills-manifest.json as single source of truth for roles, skills, dashboards",
+        "Build pipeline and validation (npm run build / validate)"
+      ]
+    }
+  ]
+}

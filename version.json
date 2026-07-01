@@ -1,9 +1,9 @@
 {
   "name": "CongaKit",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "released": "2026-06-26",
   "artifacts": {
-    "CongaKit.plugin": "sha256-0f64da08d6bdd19c4cac91a46e9d67e2e15d23e7ca6de28e3b42803611d58ade",
-    "CongaKit.zip": "sha256-b099a8b2c7eaa8b5a2aaf20cd99fffe0ce05d2149bcbf2e23648b5c9ab1e70dc"
+    "CongaKit.plugin": "sha256-ef12318c9080af8a7a2713eaf99128c5c608484548de35324b4ca73769b51b5a",
+    "CongaKit.zip": "sha256-eab73329f944ded54a7af03584754314440dd8fac477a39a74fc56c46fc2e909"
   }
 }

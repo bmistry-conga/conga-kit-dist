@@ -3,7 +3,7 @@
   "version": "0.10.5",
   "released": "2026-07-15",
   "artifacts": {
-    "CongaKit.plugin": "sha256-1108d3ce86b2f467ec6b0f62c013ed74a3b5d9dd7e93854347335e2c7ff57c34",
-    "CongaKit.zip": "sha256-184177181f341ee30daf15dc0a6c9211aa2ec5c6f145745056442529d2d1a8b5"
+    "CongaKit.plugin": "sha256-0cbad4dab76a3f706c26aeb18ec19defe5d85a6eb54b13715993d023cafe2c2f",
+    "CongaKit.zip": "sha256-fd1aa936fe6fa228bddff9e8d64f99c941c2876b31984e51ec5e657e27a62f0b"
   }
 }
